@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Todo List</title>
+
+<style>
+body{
+    font-family: Arial;
+    text-align: center;
+}
+
+.container{
+    width:400px;
+    margin:auto;
+}
+
+input{
+    width:250px;
+    padding:8px;
+}
+
+button{
+    padding:8px 12px;
+}
+
+ul{
+    list-style:none;
+    padding:0;
+}
+
+li{
+    padding:10px;
+    margin:5px 0;
+    border:1px solid #ccc;
+    display:flex;
+    justify-content:space-between;
+}
+
+.done{
+    text-decoration:line-through;
+    color:gray;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Todo List</h2>
+
+<input id="todoInput" placeholder="Nhập công việc...">
+<button onclick="addTodo()">Thêm</button>
+
+<ul id="todoList"></ul>
+
+</div>
+
+
+<script>
+
+let todos = JSON.parse(localStorage.getItem("myTodos")) || [];
+
+function saveData(){
+    localStorage.setItem("myTodos", JSON.stringify(todos));
+}
+
+function renderTodos(){
+
+    let html = "";
+
+    todos.forEach(function(todo,index){
+
+        html += `
+        <li>
+
+            <span 
+            class="${todo.completed ? "done" : ""}" 
+            onclick="toggleTodo(${index})">
+            ${todo.text}
+            </span>
+
+            <button onclick="deleteTodo(${index})">Xóa</button>
+
+        </li>
+        `;
+
+    });
+
+    document.getElementById("todoList").innerHTML = html;
+}
+
+
+function addTodo(){
+
+    let input = document.getElementById("todoInput");
+
+    let value = input.value.trim();
+
+    if(value === ""){
+        alert("Không được để trống");
+        return;
+    }
+
+    let todo = {
+        text: value,
+        completed:false
+    };
+
+    todos.push(todo);
+
+    saveData();
+
+    renderTodos();
+
+    input.value="";
+}
+
+
+function toggleTodo(index){
+
+    todos[index].completed = !todos[index].completed;
+
+    saveData();
+
+    renderTodos();
+}
+
+
+function deleteTodo(index){
+
+    if(confirm("Bạn chắc muốn xóa?")){
+
+        todos.splice(index,1);
+
+        saveData();
+
+        renderTodos();
+
+    }
+}
+
+renderTodos();
+
+</script>
+
+</body>
+</html>

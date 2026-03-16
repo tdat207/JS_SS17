@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <h1>Chuẩn bị Tết Nguyên Đán</h1>
+        <p>Danh sách việc cần làm</p>
+    </header>
+    <div class="product-card"></div>
+    </header>
+    <script>
+        const todos = [
+            { id: 1, task: "Mua bánh trưng", done: false },
+            { id: 2, task: "Dọn nhà đón tết", done: false },
+            { id: 3, task: "Gói bánh trưng", done: false },
+            { id: 4, task: "Trang trí nhà cửa", done: false },
+        ];
+        const rendertodo = () => {
+            const Container = document.querySelector(".product-card");
+            const Looplive = todos.map(item => {
+                return `
+        <div class="todo-item">
+        <span>🌸 ${item.task}</span>
+        <span class="status">${item.done ? "Đã xong" : "Chưa làm"}</span>
+        </div>`;
+            }).join("");
+            Container.innerHTML = Looplive;
+        };
+        const rendertodos = () => {
+            localStorage.setItem("myTodos", JSON.stringify(todos));
+        };
+        const main = () => {
+            rendertodo();
+            rendertodos();
+        };
+        main()
+    </script>
+</body>
+
+</html>
